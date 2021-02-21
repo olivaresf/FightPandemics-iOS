@@ -32,6 +32,7 @@ final class Navigator {
 
     private var rootWindow: UIWindow?
     private var rootTabBar: RootTabBarController?
+    private var rootTabBarActions: RootTabBarControllerActions
     private var logInNavigationController: UINavigationController?
     private var feedNavigationController: RootNavigationController?
     private var searchNavigationController: RootNavigationController?
@@ -55,6 +56,7 @@ final class Navigator {
         self.autoLoginFakeLaunchScreen = autoLoginFakeLaunchScreen
         self.locationServices = locationServices
         self.sessionManager = sessionManager
+        rootTabBarActions = RootTabBarControllerActions()
     }
 
     // MARK: - Instance methods
@@ -134,6 +136,7 @@ final class Navigator {
     private func rootTabBarController() -> RootTabBarController {
         let rootTabBarController = StoryboardScene.Main.rootTabBarController.instantiate()
         rootTabBar = rootTabBarController
+        rootTabBarController.actionDelegate = rootTabBarActions
         rootTabBarController.autoLoginFakeLaunchScreen = autoLoginFakeLaunchScreen
         rootTabBarController.navigator = self
         rootTabBarController.sessionManager = sessionManager
