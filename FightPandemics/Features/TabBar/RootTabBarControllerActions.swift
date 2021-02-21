@@ -59,7 +59,7 @@ extension RootTabBarControllerActions: RootTabBarControllerDelegate {
             tab.rawValue <= RootTabBarController.Tab.allCases.count - 1,
                "Invalid Tab index")
         let tabBarItem = tabBar.items![tab.rawValue]
-        let itemView = tabBarItem.value(forKey: "view") as! UIView
+        let itemView = tabBarItem.value(forKey: "view") as? UIView ?? UIView()
         let tabBarDot = tabDotView(tab: tab,
                                    item: tabBarItem,
                                    itemView: itemView)
