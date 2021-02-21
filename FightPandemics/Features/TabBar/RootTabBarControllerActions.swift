@@ -7,11 +7,9 @@
 import UIKit
 
 class RootTabBarControllerActions {
-    
     private func addDotToTab(tabBar: UITabBar,
                              item: UITabBarItem,
                              dotView: UIView) {
-        
         let dotViewIdentifier = 100
         if tabBar.viewWithTag(dotViewIdentifier) != nil {
             tabBar.viewWithTag(dotViewIdentifier)?.removeFromSuperview()
@@ -23,12 +21,10 @@ class RootTabBarControllerActions {
         item.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.clear],
                                     for: .selected)
     }
-    
+
     private func tabDotView(tab: RootTabBarController.Tab,
-                            item: UITabBarItem,
-                            itemView: UIView,
-                            dotView: UIView) -> UIView? {
-        
+                            item _: UITabBarItem,
+                            itemView: UIView) -> UIView {
         var addend = CGFloat()
         switch tab {
         case .feed:
@@ -54,17 +50,27 @@ class RootTabBarControllerActions {
     }
 }
 
-extension RootTabBarControllerActions : RootTabBarControllerDelegate {
-    
+extension RootTabBarControllerActions: RootTabBarControllerDelegate {
     func didSelect(tab: RootTabBarController.Tab,
                    rootController: RootTabBarController) {
+        let tabBar = rootController.tabBar
+
+        assert(tab.rawValue >= 0 &&
+            tab.rawValue <= RootTabBarController.Tab.allCases.count - 1,
+               "Invalid Tab index")
+        let tabBarItem = tabBar.items![tab.rawValue]
+        let itemView = tabBarItem.value(forKey: "view") as! UIView
+        let tabBarDot = tabDotView(tab: tab,
+                                   item: tabBarItem,
+                                   itemView: itemView)
         switch tab {
         case .feed, .search, .profile, .inbox:
             rootController.selectedIndex = tab.rawValue
+
+            addDotToTab(tabBar: tabBar,
+                        item: tabBarItem,
+                        dotView: tabBarDot)
             
-            let itemView = item.value(forKey: "view") as? UIView
-            
-            addDotToTab(tab: tab)
             tabBar.bringSubviewToFront(postButton)
         case .post:
             selectPostTab()

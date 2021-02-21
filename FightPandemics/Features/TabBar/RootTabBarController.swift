@@ -43,7 +43,8 @@ final class RootTabBarController: UITabBarController {
     }
 
     // MARK: - Properties
-    var actionDelegate: RootTabBarControllerDelegate!
+
+    weak var actionDelegate: RootTabBarControllerDelegate!
     var autoLoginFakeLaunchScreen: AutoLoginFakeLaunchScreen!
     var navigator: Navigator!
     var sessionManager: SessionManager!
@@ -69,11 +70,6 @@ final class RootTabBarController: UITabBarController {
     }
 
     // MARK: - Instance methods
-
-    func tabBarItem(_ tab: Tab) -> UITabBarItem? {
-        assert(tab.rawValue >= 0 && tab.rawValue <= Tab.allCases.count - 1, "Invalid Tab index")
-        return tabBar.items?[tab.rawValue]
-    }
 
     func navController(_ tab: Tab) -> RootNavigationController? {
         assert(tab.rawValue >= 0 && tab.rawValue <= Tab.allCases.count - 1, "Invalid Tab index")
@@ -153,10 +149,9 @@ final class RootTabBarController: UITabBarController {
     }
 }
 
-extension RootTabBarController : UITabBarControllerDelegate {
+extension RootTabBarController: UITabBarControllerDelegate {
     func tabBarController(_: UITabBarController,
                           didSelect viewController: UIViewController) {
-        
         guard let viewController = (viewController as? RootNavigationController)?.viewControllers.first else {
             return
         }
