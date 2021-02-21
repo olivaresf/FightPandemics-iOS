@@ -26,6 +26,11 @@
 
 import UIKit
 
+protocol RootTabBarControllerDelegate {
+    func didSelect(tab: RootTabBarController.Tab,
+                   rootController: RootTabBarController)
+}
+
 final class RootTabBarController: UITabBarController {
     // MARK: - Types
 
@@ -38,7 +43,7 @@ final class RootTabBarController: UITabBarController {
     }
 
     // MARK: - Properties
-
+    var actionDelegate: RootTabBarControllerDelegate!
     var autoLoginFakeLaunchScreen: AutoLoginFakeLaunchScreen!
     var navigator: Navigator!
     var sessionManager: SessionManager!
@@ -54,6 +59,7 @@ final class RootTabBarController: UITabBarController {
 
         customizeTabBar()
         selectTab(.feed)
+        delegate = self
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -200,5 +206,32 @@ final class RootTabBarController: UITabBarController {
                 self?.navigator.navigateToLogIn()
             }
         }
+    }
+}
+
+extension RootTabBarController : UITabBarControllerDelegate {
+    func tabBarController(_: UITabBarController,
+                          didSelect viewController: UIViewController) {
+        
+        guard let viewController = (viewController as? RootNavigationController)?.viewControllers.first else {
+            return
+        }
+
+        let tab: Tab
+        switch viewController {
+        case is FeedViewController:
+            tab = .feed
+        case is SearchViewController:
+            tab = .search
+        case is InboxViewController:
+            tab = .inbox
+        case is ProfileViewController:
+            tab = .profile
+        default:
+            return
+        }
+
+        actionDelegate.didSelect(tab: tab,
+                                 rootController: self)
     }
 }
