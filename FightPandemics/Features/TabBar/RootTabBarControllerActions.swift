@@ -70,10 +70,10 @@ extension RootTabBarControllerActions: RootTabBarControllerDelegate {
             addDotToTab(tabBar: tabBar,
                         item: tabBarItem,
                         dotView: tabBarDot)
-            
-            tabBar.bringSubviewToFront(postButton)
+
+            tabBar.bringSubviewToFront(rootController.postButton)
         case .post:
-            selectPostTab()
+            rootController.selectPostTab()
         }
     }
 }

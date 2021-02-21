@@ -49,7 +49,7 @@ final class RootTabBarController: UITabBarController {
     var navigator: Navigator!
     var sessionManager: SessionManager!
 
-    private var postButton: UIButton!
+    var postButton: UIButton!
 
     // MARK: - Overrides
 
@@ -134,7 +134,7 @@ final class RootTabBarController: UITabBarController {
         item?.titlePositionAdjustment = UIOffset(horizontal: horizontalOffset, vertical: 0)
     }
 
-    @objc private func selectPostTab() {
+    @objc func selectPostTab() {
         navigator.navigateToCreatePostEntitySelectionModal()
     }
 
