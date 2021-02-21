@@ -26,7 +26,7 @@
 
 import UIKit
 
-protocol RootTabBarControllerDelegate {
+protocol RootTabBarControllerDelegate : class {
     func didSelect(tab: RootTabBarController.Tab,
                    rootController: RootTabBarController)
 }
