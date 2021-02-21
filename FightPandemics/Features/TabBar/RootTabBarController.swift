@@ -26,6 +26,11 @@
 
 import UIKit
 
+protocol RootTabBarControllerDelegate: AnyObject {
+    func didSelect(tab: RootTabBarController.Tab,
+                   rootController: RootTabBarController)
+}
+
 final class RootTabBarController: UITabBarController {
     // MARK: - Types
 
@@ -39,11 +44,12 @@ final class RootTabBarController: UITabBarController {
 
     // MARK: - Properties
 
+    weak var actionDelegate: RootTabBarControllerDelegate!
     var autoLoginFakeLaunchScreen: AutoLoginFakeLaunchScreen!
     var navigator: Navigator!
     var sessionManager: SessionManager!
 
-    private var postButton: UIButton!
+    var postButton: UIButton!
 
     // MARK: - Overrides
 
@@ -52,9 +58,10 @@ final class RootTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        delegate = self
         customizeTabBar()
-        selectTab(.feed)
+        actionDelegate.didSelect(tab: .feed,
+                                 rootController: self)
+        delegate = self
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -64,22 +71,6 @@ final class RootTabBarController: UITabBarController {
     }
 
     // MARK: - Instance methods
-
-    func selectTab(_ tab: Tab) {
-        switch tab {
-        case .feed, .search, .profile, .inbox:
-            selectedIndex = tab.rawValue
-            addDotToTab(tab: tab)
-            tabBar.bringSubviewToFront(postButton)
-        case .post:
-            selectPostTab()
-        }
-    }
-
-    func tabBarItem(_ tab: Tab) -> UITabBarItem? {
-        assert(tab.rawValue >= 0 && tab.rawValue <= Tab.allCases.count - 1, "Invalid Tab index")
-        return tabBar.items?[tab.rawValue]
-    }
 
     func navController(_ tab: Tab) -> RootNavigationController? {
         assert(tab.rawValue >= 0 && tab.rawValue <= Tab.allCases.count - 1, "Invalid Tab index")
@@ -118,7 +109,10 @@ final class RootTabBarController: UITabBarController {
     }
 
     private func customizeTabBarItem(tab: Tab) {
-        let item = tabBarItem(tab)
+        assert(tab.rawValue >= 0 &&
+            tab.rawValue <= RootTabBarController.Tab.allCases.count - 1,
+               "Invalid Tab index")
+        let item = tabBar.items![tab.rawValue]
         var titleKey: String = "TabBarFeedBtn"
         var iconImage: UIImage = Asset.feed.image
         var horizontalOffset: CGFloat = -15
@@ -138,58 +132,13 @@ final class RootTabBarController: UITabBarController {
         case .post, .feed:
             break
         }
-        item?.setTitleTextAttributes([NSAttributedString.Key.font: Fonts.poppinsRegular.customFont(size: 12)], for: .normal)
-        item?.image = iconImage
-        item?.title = titleKey.localized
-        item?.titlePositionAdjustment = UIOffset(horizontal: horizontalOffset, vertical: 0)
+        item.setTitleTextAttributes([NSAttributedString.Key.font: Fonts.poppinsRegular.customFont(size: 12)], for: .normal)
+        item.image = iconImage
+        item.title = titleKey.localized
+        item.titlePositionAdjustment = UIOffset(horizontal: horizontalOffset, vertical: 0)
     }
 
-    private func addDotToTab(tab: Tab) {
-        guard let item = tabBarItem(tab), let dotView = tabDotView(tab: tab) else {
-            return
-        }
-        let dotViewIdentifier = 100
-        if tabBar.viewWithTag(dotViewIdentifier) != nil {
-            tabBar.viewWithTag(dotViewIdentifier)?.removeFromSuperview()
-        }
-        dotView.tag = dotViewIdentifier
-        tabBar.addSubview(dotView)
-        tabBar.layoutIfNeeded()
-        tabBar.layoutSubviews()
-        item.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.clear],
-                                    for: .selected)
-    }
-
-    private func tabDotView(tab: Tab) -> UIView? {
-        guard let item = tabBarItem(tab), let itemView = item.value(forKey: "view") as? UIView else {
-            return nil
-        }
-
-        var addend = CGFloat()
-        switch tab {
-        case .feed:
-            addend = -19
-        case .search:
-            addend = -35
-        case .inbox:
-            addend = 27
-        case .profile:
-            addend = 12
-        case .post:
-            break
-        }
-
-        let dotView = UIView()
-        dotView.backgroundColor = UIColor.fightPandemicsNeonBlue()
-        dotView.frame.size = CGSize(width: 6, height: 6)
-        dotView.layer.cornerRadius = 3
-        dotView.layer.masksToBounds = true
-        dotView.frame.origin.x = itemView.frame.origin.x + (itemView.frame.size.width / 2) + addend
-        dotView.frame.origin.y = 40
-        return dotView
-    }
-
-    @objc private func selectPostTab() {
+    @objc func selectPostTab() {
         navigator.navigateToCreatePostEntitySelectionModal()
     }
 
@@ -204,12 +153,9 @@ final class RootTabBarController: UITabBarController {
     }
 }
 
-// MARK: - Protocol conformance
-
-// MARK: UITabBarControllerDelegate
-
 extension RootTabBarController: UITabBarControllerDelegate {
-    func tabBarController(_: UITabBarController, didSelect viewController: UIViewController) {
+    func tabBarController(_: UITabBarController,
+                          didSelect viewController: UIViewController) {
         guard let viewController = (viewController as? RootNavigationController)?.viewControllers.first else {
             return
         }
@@ -228,6 +174,7 @@ extension RootTabBarController: UITabBarControllerDelegate {
             return
         }
 
-        selectTab(tab)
+        actionDelegate.didSelect(tab: tab,
+                                 rootController: self)
     }
 }

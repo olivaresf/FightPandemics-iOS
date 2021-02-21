@@ -32,6 +32,7 @@ final class Navigator {
 
     private var rootWindow: UIWindow?
     private var rootTabBar: RootTabBarController?
+    private var rootTabBarActions: RootTabBarControllerActions
     private var logInNavigationController: UINavigationController?
     private var feedNavigationController: RootNavigationController?
     private var searchNavigationController: RootNavigationController?
@@ -55,6 +56,7 @@ final class Navigator {
         self.autoLoginFakeLaunchScreen = autoLoginFakeLaunchScreen
         self.locationServices = locationServices
         self.sessionManager = sessionManager
+        rootTabBarActions = RootTabBarControllerActions()
     }
 
     // MARK: - Instance methods
@@ -69,8 +71,12 @@ final class Navigator {
 
         // Slight delay to give initial UI time to setup in the event Log In presented right at launch
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            self?.rootTabBar?.present(logIn, animated: true, completion: nil)
-            self?.rootTabBar?.selectTab(.feed)
+
+            guard let self = self else { return }
+
+            self.rootTabBar?.present(logIn, animated: true, completion: nil)
+            self.rootTabBar?.actionDelegate.didSelect(tab: .feed,
+                                                      rootController: self.rootTabBarController())
         }
     }
 
@@ -130,6 +136,7 @@ final class Navigator {
     private func rootTabBarController() -> RootTabBarController {
         let rootTabBarController = StoryboardScene.Main.rootTabBarController.instantiate()
         rootTabBar = rootTabBarController
+        rootTabBarController.actionDelegate = rootTabBarActions
         rootTabBarController.autoLoginFakeLaunchScreen = autoLoginFakeLaunchScreen
         rootTabBarController.navigator = self
         rootTabBarController.sessionManager = sessionManager
