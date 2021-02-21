@@ -74,6 +74,7 @@
 		7DEF116C7BC2A4F6BA56F4F0 /* Pods_FightPandemics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC14540D23239E4E26F554CF /* Pods_FightPandemics.framework */; };
 		976A98CB24782B8600604FFA /* GeneratedImagesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976A98CA24782B8600604FFA /* GeneratedImagesList.swift */; };
 		976A98CD24782BC500604FFA /* GeneratedStoryboardsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976A98CC24782BC500604FFA /* GeneratedStoryboardsList.swift */; };
+		9B3DC87125E231C800D7C7AA /* RootTabBarControllerActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3DC87025E231C800D7C7AA /* RootTabBarControllerActions.swift */; };
 		A681817C2482050A00E7EA43 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A681817B2482050A00E7EA43 /* PillButton.swift */; };
 		C013ACDA246FF3E200F22BE7 /* OfferRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013ACD9246FF3E200F22BE7 /* OfferRequest.swift */; };
 		C016A4DD248AC1C30012B185 /* CommentFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016A4DC248AC1C30012B185 /* CommentFooter.swift */; };
@@ -212,6 +213,7 @@
 		74D3F30914E75C1D9DB78030 /* Pods-FightPandemics.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FightPandemics.debug.xcconfig"; path = "Target Support Files/Pods-FightPandemics/Pods-FightPandemics.debug.xcconfig"; sourceTree = "<group>"; };
 		976A98CA24782B8600604FFA /* GeneratedImagesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedImagesList.swift; sourceTree = "<group>"; };
 		976A98CC24782BC500604FFA /* GeneratedStoryboardsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedStoryboardsList.swift; sourceTree = "<group>"; };
+		9B3DC87025E231C800D7C7AA /* RootTabBarControllerActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarControllerActions.swift; sourceTree = "<group>"; };
 		A681817B2482050A00E7EA43 /* PillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		AC14540D23239E4E26F554CF /* Pods_FightPandemics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FightPandemics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C013ACD9246FF3E200F22BE7 /* OfferRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferRequest.swift; sourceTree = "<group>"; };
@@ -583,6 +585,7 @@
 				2FB341F22468F984007E397F /* Main.storyboard */,
 				2FB341F82468F9F0007E397F /* RootTabBarController.swift */,
 				2F0C3C642471DB2D0002B384 /* RootNavigationController.swift */,
+				9B3DC87025E231C800D7C7AA /* RootTabBarControllerActions.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -1046,6 +1049,7 @@
 				DD06F63324C055940003FA15 /* CollectionReusableView+FightPandemics.swift in Sources */,
 				976A98CD24782BC500604FFA /* GeneratedStoryboardsList.swift in Sources */,
 				2F72CE5D2468793300750785 /* MockAPI.swift in Sources */,
+				9B3DC87125E231C800D7C7AA /* RootTabBarControllerActions.swift in Sources */,
 				2F042194246CD022005FB1D0 /* SearchViewController.swift in Sources */,
 				DD06F63124C054D00003FA15 /* Reusable.swift in Sources */,
 				2F0C3C42246ECA660002B384 /* ConstrainableView.swift in Sources */,

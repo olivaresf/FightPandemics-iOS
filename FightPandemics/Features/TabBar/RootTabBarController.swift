@@ -52,7 +52,6 @@ final class RootTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        delegate = self
         customizeTabBar()
         selectTab(.feed)
     }
@@ -201,33 +200,5 @@ final class RootTabBarController: UITabBarController {
                 self?.navigator.navigateToLogIn()
             }
         }
-    }
-}
-
-// MARK: - Protocol conformance
-
-// MARK: UITabBarControllerDelegate
-
-extension RootTabBarController: UITabBarControllerDelegate {
-    func tabBarController(_: UITabBarController, didSelect viewController: UIViewController) {
-        guard let viewController = (viewController as? RootNavigationController)?.viewControllers.first else {
-            return
-        }
-
-        let tab: Tab
-        switch viewController {
-        case is FeedViewController:
-            tab = .feed
-        case is SearchViewController:
-            tab = .search
-        case is InboxViewController:
-            tab = .inbox
-        case is ProfileViewController:
-            tab = .profile
-        default:
-            return
-        }
-
-        selectTab(tab)
     }
 }
