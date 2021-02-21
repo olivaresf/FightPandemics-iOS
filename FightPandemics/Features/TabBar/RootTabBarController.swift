@@ -59,7 +59,8 @@ final class RootTabBarController: UITabBarController {
         super.viewDidLoad()
 
         customizeTabBar()
-        selectTab(.feed)
+        actionDelegate.didSelect(tab: .feed,
+                                 rootController: self)
         delegate = self
     }
 
