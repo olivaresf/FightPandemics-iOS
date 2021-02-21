@@ -8,10 +8,10 @@ import UIKit
 
 class RootTabBarControllerActions {
     
-    private func addDotToTab(tab: RootTabBarController.Tab) {
-        guard let item = tabBarItem(tab), let dotView = tabDotView(tab: tab) else {
-            return
-        }
+    private func addDotToTab(tabBar: UITabBar,
+                             item: UITabBarItem,
+                             dotView: UIView) {
+        
         let dotViewIdentifier = 100
         if tabBar.viewWithTag(dotViewIdentifier) != nil {
             tabBar.viewWithTag(dotViewIdentifier)?.removeFromSuperview()
@@ -24,11 +24,11 @@ class RootTabBarControllerActions {
                                     for: .selected)
     }
     
-    private func tabDotView(tab: Tab) -> UIView? {
-        guard let item = tabBarItem(tab), let itemView = item.value(forKey: "view") as? UIView else {
-            return nil
-        }
-
+    private func tabDotView(tab: RootTabBarController.Tab,
+                            item: UITabBarItem,
+                            itemView: UIView,
+                            dotView: UIView) -> UIView? {
+        
         var addend = CGFloat()
         switch tab {
         case .feed:
@@ -61,6 +61,9 @@ extension RootTabBarControllerActions : RootTabBarControllerDelegate {
         switch tab {
         case .feed, .search, .profile, .inbox:
             rootController.selectedIndex = tab.rawValue
+            
+            let itemView = item.value(forKey: "view") as? UIView
+            
             addDotToTab(tab: tab)
             tabBar.bringSubviewToFront(postButton)
         case .post:
