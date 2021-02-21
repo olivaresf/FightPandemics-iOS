@@ -6,9 +6,19 @@
 
 import UIKit
 
-class RootTabBarControllerActions : NSObject { }
+class RootTabBarControllerActions { }
 
-extension RootTabBarControllerActions : UITabBarControllerDelegate {
+extension RootTabBarControllerActions : RootTabBarControllerDelegate {
     
-    
+    func didSelect(tab: RootTabBarController.Tab,
+                   rootController: RootTabBarController) {
+        switch tab {
+        case .feed, .search, .profile, .inbox:
+            rootController.selectedIndex = tab.rawValue
+            addDotToTab(tab: tab)
+            tabBar.bringSubviewToFront(postButton)
+        case .post:
+            selectPostTab()
+        }
+    }
 }

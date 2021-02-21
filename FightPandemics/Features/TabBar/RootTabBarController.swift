@@ -70,17 +70,6 @@ final class RootTabBarController: UITabBarController {
 
     // MARK: - Instance methods
 
-    func selectTab(_ tab: Tab) {
-        switch tab {
-        case .feed, .search, .profile, .inbox:
-            selectedIndex = tab.rawValue
-            addDotToTab(tab: tab)
-            tabBar.bringSubviewToFront(postButton)
-        case .post:
-            selectPostTab()
-        }
-    }
-
     func tabBarItem(_ tab: Tab) -> UITabBarItem? {
         assert(tab.rawValue >= 0 && tab.rawValue <= Tab.allCases.count - 1, "Invalid Tab index")
         return tabBar.items?[tab.rawValue]
