@@ -26,7 +26,7 @@
 
 import UIKit
 
-protocol RootTabBarControllerDelegate : class {
+protocol RootTabBarControllerDelegate: AnyObject {
     func didSelect(tab: RootTabBarController.Tab,
                    rootController: RootTabBarController)
 }
@@ -108,7 +108,10 @@ final class RootTabBarController: UITabBarController {
     }
 
     private func customizeTabBarItem(tab: Tab) {
-        let item = tabBarItem(tab)
+        assert(tab.rawValue >= 0 &&
+            tab.rawValue <= RootTabBarController.Tab.allCases.count - 1,
+               "Invalid Tab index")
+        let item = tabBar.items![tab.rawValue]
         var titleKey: String = "TabBarFeedBtn"
         var iconImage: UIImage = Asset.feed.image
         var horizontalOffset: CGFloat = -15
