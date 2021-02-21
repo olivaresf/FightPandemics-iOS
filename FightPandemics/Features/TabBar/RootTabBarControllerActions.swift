@@ -6,7 +6,9 @@
 
 import UIKit
 
-class RootTabBarControllerActions: UITabBarControllerDelegate {
+class RootTabBarControllerActions : NSObject { }
+
+extension RootTabBarControllerActions : UITabBarControllerDelegate {
     
     func tabBarController(_: UITabBarController,
                           didSelect viewController: UIViewController) {
