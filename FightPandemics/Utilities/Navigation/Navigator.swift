@@ -69,12 +69,12 @@ final class Navigator {
 
         // Slight delay to give initial UI time to setup in the event Log In presented right at launch
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            
+
             guard let self = self else { return }
-            
+
             self.rootTabBar?.present(logIn, animated: true, completion: nil)
             self.rootTabBar?.actionDelegate.didSelect(tab: .feed,
-                                                       rootController: self.rootTabBarController())
+                                                      rootController: self.rootTabBarController())
         }
     }
 

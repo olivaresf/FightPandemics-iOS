@@ -132,10 +132,10 @@ final class RootTabBarController: UITabBarController {
         case .post, .feed:
             break
         }
-        item?.setTitleTextAttributes([NSAttributedString.Key.font: Fonts.poppinsRegular.customFont(size: 12)], for: .normal)
-        item?.image = iconImage
-        item?.title = titleKey.localized
-        item?.titlePositionAdjustment = UIOffset(horizontal: horizontalOffset, vertical: 0)
+        item.setTitleTextAttributes([NSAttributedString.Key.font: Fonts.poppinsRegular.customFont(size: 12)], for: .normal)
+        item.image = iconImage
+        item.title = titleKey.localized
+        item.titlePositionAdjustment = UIOffset(horizontal: horizontalOffset, vertical: 0)
     }
 
     @objc func selectPostTab() {
