@@ -136,6 +136,8 @@ final class Navigator {
     private func rootTabBarController() -> RootTabBarController {
         let rootTabBarController = StoryboardScene.Main.rootTabBarController.instantiate()
         rootTabBar = rootTabBarController
+        // We are correctly setting the delegate here?
+        // https://i.kym-cdn.com/entries/icons/facebook/000/021/557/conceit.jpg
         rootTabBarController.actionDelegate = rootTabBarActions
         rootTabBarController.autoLoginFakeLaunchScreen = autoLoginFakeLaunchScreen
         rootTabBarController.navigator = self
