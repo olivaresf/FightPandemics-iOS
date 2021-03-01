@@ -31,7 +31,7 @@ final class Navigator {
     // MARK: - Properties
 
     private var rootWindow: UIWindow?
-    private var rootTabBar: RootTabBarController?
+    private var rootTabBar: RootTabBarController!
     private var rootTabBarActions: RootTabBarControllerActions
     private var logInNavigationController: UINavigationController?
     private var feedNavigationController: RootNavigationController?
@@ -63,7 +63,14 @@ final class Navigator {
 
     func installRootTabBar() {
         // rootTabBarController = <FightPandemics.RootTabBarController: 0x7f86d782ac00>
-        rootWindow?.rootViewController = rootTabBarController()
+        if let rootTabBarController = rootWindow?.rootViewController as? RootTabBarController {
+            rootTabBar = rootTabBarController
+        } else {
+            rootTabBar = StoryboardScene.Main.rootTabBarController.instantiate()
+        }
+
+        // By this point we should 100% have a `rootTabBar`, so force unwrapping doesn't matter.
+        configure(rootTabBarController: rootTabBar!)
     }
 
     func navigateToLogIn() {
@@ -77,7 +84,7 @@ final class Navigator {
 
             self.rootTabBar?.present(logIn, animated: true, completion: nil)
             self.rootTabBar?.actionDelegate.didSelect(tab: .feed,
-                                                      rootController: self.rootTabBarController())
+                                                      rootController: self.rootTabBar)
         }
     }
 
@@ -134,10 +141,8 @@ final class Navigator {
 
     // MARK: Private instance methods
 
-    private func rootTabBarController() -> RootTabBarController {
+    private func configure(rootTabBarController: RootTabBarController) {
         // rootTabBarController = <FightPandemics.RootTabBarController: 0x7f86d7026400>
-        let rootTabBarController = StoryboardScene.Main.rootTabBarController.instantiate()
-        rootTabBar = rootTabBarController
         rootTabBarController.actionDelegate = rootTabBarActions
         rootTabBarController.autoLoginFakeLaunchScreen = autoLoginFakeLaunchScreen
         rootTabBarController.navigator = self
@@ -158,7 +163,6 @@ final class Navigator {
         self.profileNavigationController = profileNavigationController
         profileNavigationController?.navigator = self
         profileNavigationController?.pushViewController(profileViewController(), animated: false)
-        return rootTabBarController
     }
 
     private func filtersModal() -> FiltersModal {
