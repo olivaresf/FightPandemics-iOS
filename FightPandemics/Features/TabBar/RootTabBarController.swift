@@ -59,6 +59,7 @@ final class RootTabBarController: UITabBarController {
         super.viewDidLoad()
 
         customizeTabBar()
+        // self = <FightPandemics.RootTabBarController: 0x7f86d782ac00>
         actionDelegate.didSelect(tab: .feed,
                                  rootController: self)
         delegate = self

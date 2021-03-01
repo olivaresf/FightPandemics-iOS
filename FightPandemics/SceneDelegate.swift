@@ -70,6 +70,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             api = MockAPI(realAPI: wrappedAPI)
         }
 
+        // If we print `window?.rootViewController`, we'll see that the rootTabBarController is already set as the root VC.
         let autoLoginFakeLaunchScreen = AutoLoginFakeLaunchScreen(rootWindow: window)
         let sessionManager = SessionManager(api: api, authState: .guest)
         navigator = Navigator(rootWindow: window,
